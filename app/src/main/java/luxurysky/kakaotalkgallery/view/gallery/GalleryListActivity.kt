@@ -6,13 +6,14 @@ import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.dummy.DummyContent
 import luxurysky.kakaotalkgallery.util.replaceFragmentInActivity
 
-class GalleryActivity : AppCompatActivity(), GalleryFragment.OnListFragmentInteractionListener {
+class GalleryListActivity : AppCompatActivity(), GalleryListFragment.OnListFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gallery)
+        setContentView(R.layout.activity_gallery_list)
+
         if (savedInstanceState == null) {
-            replaceFragmentInActivity(GalleryFragment.newInstance(4), R.id.container)
+            replaceFragmentInActivity(GalleryListFragment.newInstance(4), R.id.container)
         }
     }
 

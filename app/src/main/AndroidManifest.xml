@@ -17,7 +17,7 @@
             android:name=".view.permission.MustHavePermissionActivity"
             android:configChanges="orientation"
             android:label="@string/request_app_permission" />
-        <activity android:name=".view.gallery.GalleryActivity" />
+        <activity android:name=".view.gallery.GalleryListActivity" />
         <activity android:name=".view.intro.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

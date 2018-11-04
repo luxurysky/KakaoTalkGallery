@@ -9,7 +9,7 @@ class MustHavePermissionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.must_have_permission_activity)
+        setContentView(R.layout.activity_must_have_permission)
         if (savedInstanceState == null) {
             replaceFragmentInActivity(MustHavePermissionFragment.newInstance(), R.id.container)
         }

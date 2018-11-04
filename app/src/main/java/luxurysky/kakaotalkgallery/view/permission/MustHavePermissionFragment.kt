@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.must_have_permission_fragment.view.*
+import kotlinx.android.synthetic.main.fragment_must_have_permission.view.*
 import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.util.Constants
 import luxurysky.kakaotalkgallery.util.finish
-import luxurysky.kakaotalkgallery.view.gallery.GalleryActivity
+import luxurysky.kakaotalkgallery.view.gallery.GalleryListActivity
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -21,7 +21,7 @@ class MustHavePermissionFragment : Fragment(), EasyPermissions.PermissionCallbac
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.must_have_permission_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_must_have_permission, container, false)
 
         view.confirmButton.setOnClickListener {
             if (EasyPermissions.hasPermissions(context!!, *Constants.REQUIRED_PERMISSIONS)) {
@@ -73,6 +73,6 @@ class MustHavePermissionFragment : Fragment(), EasyPermissions.PermissionCallbac
 
     private fun checkPermissionCompleted() {
         finish()
-        startActivity(Intent(activity, GalleryActivity::class.java))
+        startActivity(Intent(activity, GalleryListActivity::class.java))
     }
 }
