@@ -11,8 +11,8 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:context=".view.gallery.GalleryListFragment"
-            tools:listitem="@layout/item_gallery" />
+            tools:context=".view.contents.ContentsFragment"
+            tools:listitem="@layout/item_content" />
 
     <ProgressBar
             android:id="@+id/loadingProgressBar"

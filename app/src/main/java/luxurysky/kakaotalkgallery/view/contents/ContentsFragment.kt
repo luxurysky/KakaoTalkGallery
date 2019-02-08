@@ -1,4 +1,4 @@
-package luxurysky.kakaotalkgallery.view.gallery
+package luxurysky.kakaotalkgallery.view.contents
 
 import android.content.Context
 import android.os.Bundle
@@ -14,30 +14,29 @@ import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_gallery_list.*
-import kotlinx.android.synthetic.main.fragment_gallery_list.view.*
+import kotlinx.android.synthetic.main.fragment_contents.*
 import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.dummy.DummyContent.DummyItem
 import luxurysky.kakaotalkgallery.view.common.GridSpacingItemDecoration
 
-class GalleryListFragment : Fragment() {
+class ContentsFragment : Fragment() {
     companion object {
         const val ARG_COLUMN_COUNT = "column-count"
 
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            GalleryListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
+                ContentsFragment().apply {
+                    arguments = Bundle().apply {
+                        putInt(ARG_COLUMN_COUNT, columnCount)
+                    }
                 }
-            }
     }
 
     private var columnCount = 1
 
-    private lateinit var mViewModel: GalleryListViewModel
+    private lateinit var mViewModel: ContentsViewModel
     private val mDisposables = CompositeDisposable()
-    private lateinit var mAdapter: GalleryListRecyclerViewAdapter
+    private lateinit var mAdapter: ContentsRecyclerViewAdapter
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onAttach(context: Context) {
@@ -45,14 +44,14 @@ class GalleryListFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mViewModel = ViewModelProviders.of(this).get(GalleryListViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this).get(ContentsViewModel::class.java)
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
@@ -60,18 +59,19 @@ class GalleryListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_gallery_list, container, false)
+        return inflater.inflate(R.layout.fragment_contents, container, false)
+    }
 
-        with(root) {
-            with(contentListRecyclerView)
-            {
-                addItemDecoration(GridSpacingItemDecoration(3, 10))
-                layoutManager = GridLayoutManager(context, 3)
-                mAdapter = GalleryListRecyclerViewAdapter(listener)
-                adapter = mAdapter
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(contentListRecyclerView)
+        {
+            addItemDecoration(GridSpacingItemDecoration(3, 10))
+            layoutManager = GridLayoutManager(context, 3)
+            mAdapter = ContentsRecyclerViewAdapter(listener)
+            adapter = mAdapter
         }
-        return root
     }
 
     override fun onStart() {
@@ -89,27 +89,32 @@ class GalleryListFragment : Fragment() {
         listener = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mDisposables.dispose()
+    }
+
     private fun bindViewModel() {
-        mViewModel.getContent()
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                mAdapter.setItems(it)
-            }.let(mDisposables::add)
+        mViewModel.getContents()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    mAdapter.setItems(it)
+                }.let(mDisposables::add)
 
         mViewModel.getLoadingIndicatorVisibility()
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                setLoadingIndicatorVisibility(it)
-            }.let(mDisposables::add)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    setLoadingIndicatorVisibility(it)
+                }.let(mDisposables::add)
 
         mViewModel.getSnackbarMessage()
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                showSnackbar(it)
-            }.let(mDisposables::add)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    showSnackbar(it)
+                }.let(mDisposables::add)
     }
 
     private fun unbindViewModel() {

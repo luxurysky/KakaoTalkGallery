@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.util.Constants
 import luxurysky.kakaotalkgallery.util.startActivity
-import luxurysky.kakaotalkgallery.view.gallery.GalleryListActivity
+import luxurysky.kakaotalkgallery.view.contents.ContentsActivity
 import luxurysky.kakaotalkgallery.view.permission.MustHavePermissionActivity
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -20,7 +20,7 @@ class IntroActivity : AppCompatActivity() {
 
         mHandler.postDelayed({
             if (EasyPermissions.hasPermissions(this, *Constants.REQUIRED_PERMISSIONS)) {
-                startActivity<GalleryListActivity>()
+                startActivity<ContentsActivity>()
             } else {
                 startActivity<MustHavePermissionActivity>()
             }

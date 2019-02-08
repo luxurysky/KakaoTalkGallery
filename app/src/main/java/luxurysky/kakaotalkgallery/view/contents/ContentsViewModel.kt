@@ -1,13 +1,14 @@
-package luxurysky.kakaotalkgallery.view.gallery
+package luxurysky.kakaotalkgallery.view.contents
 
 import android.os.Environment
 import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import luxurysky.kakaotalkgallery.util.Constants
 import java.io.File
 
 
-class GalleryListViewModel : ViewModel() {
+class ContentsViewModel : ViewModel() {
 
     private val mLoadingIndicatorSubject = BehaviorSubject.create<Boolean>()
     private val mSnackbarText = BehaviorSubject.create<Int>()
@@ -20,7 +21,7 @@ class GalleryListViewModel : ViewModel() {
         return mSnackbarText
     }
 
-    fun getContent(): Observable<List<File>> {
+    fun getContents(): Observable<List<File>> {
         return Observable.fromCallable { getContentFiles() }
             .doOnSubscribe { mLoadingIndicatorSubject.onNext(true) }
             .doOnNext { mLoadingIndicatorSubject.onNext(false) }
@@ -29,11 +30,11 @@ class GalleryListViewModel : ViewModel() {
     private fun getContentFiles(): List<File> {
         val files = mutableListOf<File>()
         val externalStorageDirectory = Environment.getExternalStorageDirectory()
-        val kakaoTalkDirectory = File(externalStorageDirectory, "android/data/com.kakao.talk/contents")
+        val kakaoTalkDirectory = File(externalStorageDirectory, Constants.KAKAO_TALK_CONTENTS_PATH)
         if (kakaoTalkDirectory.isDirectory && kakaoTalkDirectory.exists()) {
             getFiles(files, kakaoTalkDirectory)
         }
-        return files
+        return files.sortedByDescending { it.lastModified() }
     }
 
     private fun getFiles(files: MutableList<File>, rootDirectory: File) {

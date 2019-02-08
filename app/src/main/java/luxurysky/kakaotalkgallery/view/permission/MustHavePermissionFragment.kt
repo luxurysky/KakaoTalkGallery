@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_must_have_permission.view.*
 import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.util.Constants
 import luxurysky.kakaotalkgallery.util.finish
-import luxurysky.kakaotalkgallery.view.gallery.GalleryListActivity
+import luxurysky.kakaotalkgallery.view.contents.ContentsActivity
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -73,6 +73,6 @@ class MustHavePermissionFragment : Fragment(), EasyPermissions.PermissionCallbac
 
     private fun checkPermissionCompleted() {
         finish()
-        startActivity(Intent(activity, GalleryListActivity::class.java))
+        startActivity(Intent(activity, ContentsActivity::class.java))
     }
 }

@@ -1,23 +1,20 @@
-package luxurysky.kakaotalkgallery.view.gallery
+package luxurysky.kakaotalkgallery.view.contents
 
-
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_gallery.view.*
+import kotlinx.android.synthetic.main.item_content.view.*
 import luxurysky.kakaotalkgallery.GlideApp
 import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.dummy.DummyContent.DummyItem
-import luxurysky.kakaotalkgallery.view.gallery.GalleryListFragment.OnListFragmentInteractionListener
+import luxurysky.kakaotalkgallery.util.StringUtils
+import luxurysky.kakaotalkgallery.view.contents.ContentsFragment.OnListFragmentInteractionListener
 import java.io.File
 
-class GalleryListRecyclerViewAdapter(
-
-    private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<GalleryListRecyclerViewAdapter.ViewHolder>() {
+class ContentsRecyclerViewAdapter(private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<ContentsRecyclerViewAdapter.ViewHolder>() {
 
     private val mValues: MutableList<File> = mutableListOf()
     private val mOnClickListener: View.OnClickListener
@@ -38,8 +35,7 @@ class GalleryListRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_gallery, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_content, parent, false)
         return ViewHolder(view)
     }
 
@@ -52,18 +48,20 @@ class GalleryListRecyclerViewAdapter(
 //            tag = item
 //            setOnClickListener(mOnClickListener)
 //        }
-        GlideApp.with(holder.mImageView)
-            .load(mValues[position])
-            .into(holder.mImageView)
-        Log.d("TAG", "onBind position : $position, file : ${mValues[position]}")
+        GlideApp.with(holder.thumbnailImageView)
+                .load(mValues[position])
+                .into(holder.thumbnailImageView)
+
+        holder.fileSizeTextView.text = StringUtils.convertFileSize(item.length())
     }
 
     override fun getItemCount(): Int = mValues.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mImageView: ImageView = mView.imageView
-//        val mIdView: TextView = mView.item_number
-//        val mContentView: TextView = mView.content
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val thumbnailImageView: ImageView = view.thumbnailImageView
+        val fileSizeTextView: TextView = view.fileSizeTextView
+//        val mIdView: TextView = view.item_number
+//        val mContentView: TextView = view.content
 //
 //        override fun toString(): String {
 //            return super.toString() + " '" + mContentView.text + "'"
