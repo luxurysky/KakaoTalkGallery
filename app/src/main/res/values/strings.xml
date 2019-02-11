@@ -7,4 +7,6 @@
     <string name="setting_permission_desc">접근 권한이 없어서 해당 앱을 사용할 수 없습니다. 권한을 허용하시려면 설정을 눌러주세요.</string>
     <string name="required_permission_desc">해당 앱을 사용하려면 접근 권한이 필요합니다.</string>
     <string name="content_not_found">콘텐츠를 찾을 수 없습니다.</string>
+    <string name="sort_by_date">시간순</string>
+    <string name="sort_by_size">크기순</string>
 </resources>
