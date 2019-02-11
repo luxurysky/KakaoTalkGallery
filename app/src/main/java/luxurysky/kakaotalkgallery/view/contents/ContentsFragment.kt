@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,8 +17,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_contents.*
 import luxurysky.kakaotalkgallery.R
+import luxurysky.kakaotalkgallery.databinding.FragmentContentsBinding
 import luxurysky.kakaotalkgallery.dummy.DummyContent.DummyItem
 import luxurysky.kakaotalkgallery.view.common.GridSpacingItemDecoration
+import luxurysky.kakaotalkgallery.viewmodel.ContentsViewModel
 
 class ContentsFragment : Fragment() {
     companion object {
@@ -59,7 +62,11 @@ class ContentsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_contents, container, false)
+        val binding = DataBindingUtil.inflate<FragmentContentsBinding>(inflater, R.layout.fragment_contents, container, false)
+                .apply {
+                    contentsViewModel = mViewModel
+                }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package luxurysky.kakaotalkgallery.view.contents
+package luxurysky.kakaotalkgallery.viewmodel
 
 import android.os.Environment
 import androidx.lifecycle.ViewModel
