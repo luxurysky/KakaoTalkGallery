@@ -10,13 +10,14 @@ import kotlinx.android.synthetic.main.item_content.view.*
 import luxurysky.kakaotalkgallery.GlideApp
 import luxurysky.kakaotalkgallery.R
 import luxurysky.kakaotalkgallery.dummy.DummyContent.DummyItem
+import luxurysky.kakaotalkgallery.model.Content
 import luxurysky.kakaotalkgallery.util.StringUtils
 import luxurysky.kakaotalkgallery.view.contents.ContentsFragment.OnListFragmentInteractionListener
-import java.io.File
 
-class ContentsRecyclerViewAdapter(private val mListener: OnListFragmentInteractionListener?) : RecyclerView.Adapter<ContentsRecyclerViewAdapter.ViewHolder>() {
+class ContentsRecyclerViewAdapter(private val mListener: OnListFragmentInteractionListener?) :
+    RecyclerView.Adapter<ContentsRecyclerViewAdapter.ViewHolder>() {
 
-    private val mValues: MutableList<File> = mutableListOf()
+    private val mValues: MutableList<Content> = mutableListOf()
     private val mOnClickListener: View.OnClickListener
 
     init {
@@ -28,7 +29,7 @@ class ContentsRecyclerViewAdapter(private val mListener: OnListFragmentInteracti
         }
     }
 
-    fun setItems(items: List<File>) {
+    fun setItems(items: List<Content>) {
         mValues.clear()
         mValues.addAll(items)
         notifyDataSetChanged()
@@ -49,10 +50,10 @@ class ContentsRecyclerViewAdapter(private val mListener: OnListFragmentInteracti
 //            setOnClickListener(mOnClickListener)
 //        }
         GlideApp.with(holder.thumbnailImageView)
-                .load(mValues[position])
-                .into(holder.thumbnailImageView)
+            .load(item.thumbnail)
+            .into(holder.thumbnailImageView)
 
-        holder.fileSizeTextView.text = StringUtils.convertFileSize(item.length())
+        holder.fileSizeTextView.text = StringUtils.convertFileSize(item.size)
     }
 
     override fun getItemCount(): Int = mValues.size

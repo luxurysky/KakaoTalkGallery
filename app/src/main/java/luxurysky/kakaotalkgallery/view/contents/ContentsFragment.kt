@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -62,10 +64,11 @@ class ContentsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = DataBindingUtil.inflate<FragmentContentsBinding>(inflater, R.layout.fragment_contents, container, false)
-                .apply {
-                    contentsViewModel = mViewModel
-                }
+        val binding =
+                DataBindingUtil.inflate<FragmentContentsBinding>(inflater, R.layout.fragment_contents, container, false)
+                        .apply {
+                            cvm = mViewModel
+                        }
         return binding.root
     }
 
@@ -102,7 +105,7 @@ class ContentsFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        mViewModel.getContents()
+        mViewModel.getContentsUpdate()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
@@ -139,4 +142,9 @@ class ContentsFragment : Fragment() {
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(item: DummyItem?)
     }
+}
+
+@BindingAdapter("android:bindItems")
+fun setBindItems(recyclerView: RecyclerView, viewModel: ContentsViewModel) {
+    viewModel.updateContents()
 }

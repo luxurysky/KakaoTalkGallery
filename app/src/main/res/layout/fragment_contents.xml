@@ -5,8 +5,12 @@
 
     <data>
 
+        <import type="luxurysky.kakaotalkgallery.viewmodel.ContentsViewModel.SortByDate" />
+
+        <import type="luxurysky.kakaotalkgallery.viewmodel.ContentsViewModel.SortBySize" />
+
         <variable
-            name="contentsViewModel"
+            name="cvm"
             type="luxurysky.kakaotalkgallery.viewmodel.ContentsViewModel" />
     </data>
 
@@ -19,18 +23,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+            android:drawableRight="@{cvm.mCurrentSortByDate.equals(SortByDate.ASCENDING) ? @drawable/ic_arrow_drop_down_black_24dp : @drawable/ic_arrow_drop_up_black_24dp}"
+            android:onClick="@{()->cvm.toggleSortByDate()}"
             android:text="@string/sort_by_date"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@id/sortBySizeButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:drawableRight="@drawable/ic_arrow_drop_down_black_24dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sortBySizeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+            android:drawableRight="@drawable/ic_arrow_drop_up_black_24dp"
             android:text="@string/sort_by_size"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,11 +46,11 @@
             android:id="@+id/contentListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:bindItems="@{cvm}"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sortBySizeButton"
-            tools:context=".view.contents.ContentsFragment"
             tools:listitem="@layout/item_content" />
 
         <ProgressBar
